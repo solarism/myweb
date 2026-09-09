@@ -76,15 +76,15 @@ def test_year_does_not_use_patent_lookup_url_or_conference_title():
     assert record_year('專利 I856852 https://tiponet.tipo.gov.tw/S092_OUT/2022', 'patents') == ''
 
 
-def test_contact_links_follow_source_cv(app):
-    store = app.extensions['content_store']
-    path = store.directory / 'CV.md'
-    path.write_text(path.read_text().replace('weichen At ntub.edu.tw', 'new.email@example.edu').replace('+886-2-2322-6477', '+886-2-1234-5678'))
+def test_contact_information_not_exposed(app):
     for lang in ('en', 'zh'):
         page = app.test_client().get('/?lang=' + lang).text
-        assert 'href="mailto:new.email@example.edu"' in page
-        assert 'href="tel:+886212345678"' in page
-        assert 'href="mailto:weichen@ntub.edu.tw"' not in page
+
+        assert 'mailto:' not in page
+        assert 'tel:' not in page
+        assert 'weichen@ntub.edu.tw' not in page
+        assert 'weichen At ntub.edu.tw' not in page
+        assert '+886-2-2322-6477' not in page
 
 
 def test_unknown_cv_is_not_a_file_read(app):
