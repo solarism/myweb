@@ -1,0 +1,15 @@
+services:
+  website:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    env_file: .env
+    environment:
+      DATABASE_PATH: /data/chat.sqlite3
+      SOURCE_MD_DIR: /app/content/zh
+    volumes:
+      - chat-data:/data
+      - ./content:/app/content:ro
+    restart: unless-stopped
+volumes:
+  chat-data:

@@ -1,0 +1,33 @@
+# This Blueprint requires a paid service + persistent disk. It does not provision until you apply it.
+services:
+  - type: web
+    name: professor-website
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.lock
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 60 'app:create_app()'
+    healthCheckPath: /healthz
+    autoDeployTrigger: commit
+    disk:
+      name: chat-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.9
+      - key: APP_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_PATH
+        value: /var/data/chat.sqlite3
+      - key: SOURCE_MD_DIR
+        value: ./content/zh
+      - key: TRUST_PROXY
+        value: "1"
+      - key: LINE_CHANNEL_ACCESS_TOKEN
+        sync: false
+      - key: LINE_CHANNEL_SECRET
+        sync: false
+      - key: LINE_ADMIN_USER_ID
+        sync: false
