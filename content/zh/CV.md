@@ -2,7 +2,7 @@
 Dr. Wei-Chen Wu was born in Taipei, Taiwan R.O.C. He is Associate Professor in the Department of Finance at the National Taipei University of Business. He received his Ph.D. degree in Information Management from National Central University in 2016. From 2021-2023, He was Assistant Professor in the Department of Finance at the National Taipei University of Business.
 From 2020-2021, He was Assistant Professor in the Department of Finance at the Feng Chia University. From 2008-2016, he was also Assistant Professor and Director of the Computer Center at Hsin Sheng College of Medical Care and Management. His teaching interests lie in the area of programming languages, ranging from theory to design to implementation and his current research interests include blockchain technology, fintech cybersecurity, network security, and deep learning. Wei-Chen Wu has collaborated actively with researchers in several other disciplines of computer science. He has served on many conference and workshop program committees and served as the workshop chair for Frontier Computing Conference(FC2017~FC2021) and Machine Learning on FinTech, Security and Privacy Conference (MLFSP2020~MLFSP2019).
 
-我目前服務於國立臺北商業大學財務金融學系，負責教授金融科技與資訊的相關課程，過去專長在密碼學與資通安全，也是勞動部全國技能競賽網路安全職類裁判 目前主要研究放在區塊鏈、機器學習與量子金融，歡迎透過 weichen At ntub.edu.tw 與我聯繫和交流。
+我目前服務於國立臺北商業大學財務金融學系，負責教授金融科技與資訊的相關課程，過去專長在密碼學與資通安全，也是勞動部全國技能競賽網路安全職類裁判 目前主要研究放在區塊鏈、機器學習與量子金融，歡迎與我聯繫和交流。
 
 ## Contributions 
 Scopus https://www.scopus.com/authid/detail.uri?authorId=12807634400
