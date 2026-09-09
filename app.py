@@ -68,7 +68,8 @@ def create_app(test_config=None):
         return render_template('index.html', lang=lang, t=LABELS[lang], docs=docs,
                                publication_count=total, project_count=project_count,
                                version=store.version(), chat_enabled=enabled(),
-                               retention=app.config['CHAT_RETENTION_DAYS'], contact=store.contact())
+                               retention=app.config['CHAT_RETENTION_DAYS'], contact=store.contact(),
+                               static_mode=False, language_url='?lang=' + ('zh' if lang == 'en' else 'en'))
 
     @app.get('/api/content/version')
     def version():

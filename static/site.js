@@ -16,8 +16,9 @@ document.addEventListener('keydown', event => {
   }
 });
 const languageLink = document.querySelector('.language-toggle');
+const languageTarget = languageLink.getAttribute('href');
 languageLink.addEventListener('click', () => {
-  languageLink.href = '?lang=' + (document.body.dataset.lang === 'en' ? 'zh' : 'en') + window.location.hash;
+  languageLink.href = languageTarget + window.location.hash;
 });
 const sections = document.querySelectorAll('main > section[id]');
 const observer = new IntersectionObserver(entries => {
@@ -32,6 +33,7 @@ const observer = new IntersectionObserver(entries => {
 sections.forEach(section => observer.observe(section));
 
 const dialog = document.querySelector('#chat-dialog');
+if (dialog) {
 const form = document.querySelector('#chat-form');
 let csrf = '', pollTimer = null, busy = false, initialized = false, lastMessages = '';
 let submission = null;
@@ -156,3 +158,4 @@ setInterval(async () => {
     if (response.ok && (await response.json()).version !== document.body.dataset.version) location.reload();
   } catch (_) { /* Keep the current page available during a temporary outage. */ }
 }, 30000);
+}

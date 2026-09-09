@@ -107,7 +107,36 @@ git push -u origin main
 
 ## 部署
 
-**GitHub 負責存放程式碼；GitHub Pages 不會執行 Flask，也無法接收 LINE webhook。** 完整功能需要可執行 Python 的主機。
+暫不啟用 LINE 時，可直接使用 **GitHub Pages**，免費展示中英文網頁與 CV 下載。程式會在 GitHub Actions 中用 Python 將 Markdown 轉成靜態 HTML，GitHub Pages 不需要執行 Flask。
+
+### GitHub Pages（目前建議）
+
+您的網站預計網址：**https://solarism.github.io/myweb/**，英文版為 **https://solarism.github.io/myweb/en.html**。完成下列步驟且部署成功後才可使用。
+
+1. 將本次更新的程式碼提交並推送到 `solarism/myweb` 的 `main` 分支（包含 `.github/workflows/pages.yml`）。
+2. 開啟 [儲存庫 Pages 設定](https://github.com/solarism/myweb/settings/pages)。
+3. 在 **Build and deployment → Source** 選擇 **GitHub Actions**。
+4. 到 [Actions](https://github.com/solarism/myweb/actions)，選擇 **Deploy GitHub Pages**。若尚未自動執行，點 **Run workflow → main → Run workflow**。
+5. 等待 `build` 和 `deploy` 都顯示綠色勾號，再開啟上方網站網址。發布可能需要幾分鐘。
+
+若使用 GitHub 免費方案，儲存庫需要為公開；若私人儲存庫的 Pages 設定提示方案限制，請依您的公開偏好及帳號方案選擇處理，不必為了使用本程式啟用 LINE。
+
+GitHub Pages 版本隱藏聊天框、保留 Email 聯絡方式，不會呼叫 LINE 或 Flask API。將來需要 LINE 雙向對話時，可使用下方的 Python 主機方案。
+
+之後直接修改 GitHub 的 `content/zh/*.md` 並提交，Actions 便會自動重新建立網站與兩種 CV。若在本機修改上一層原附件，先執行 `python scripts/sync_content.py --snapshot`，再將 `content/zh/` 的變更推送 GitHub。英文譯文維護方式同前節。此靜態版本在部署後重新整理網頁即可看到更新。
+
+本機產生與預覽靜態版本：
+
+```bash
+python scripts/export_static.py
+python -m http.server 8000 --directory dist/pages
+```
+
+開啟 <http://127.0.0.1:8000>。`dist/pages` 僅含中英文 HTML、公開 CSS／JavaScript／圖示與 CV 檔，不包含原始程式、環境變數或聊天資料。
+
+官方參考：[建立 Pages 網站](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)、[使用自訂 Actions 部署](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。
+
+**若要啟用 LINE，完整功能仍需要可執行 Python 的主機**；GitHub Pages 無法接收 LINE webhook。
 
 ### Render
 

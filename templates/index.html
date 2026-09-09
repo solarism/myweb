@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
   <script defer src="{{ url_for('static', filename='site.js') }}"></script>
 </head>
-<body data-version="{{ version }}" data-lang="{{ lang }}">
+<body data-version="{{ version }}" data-lang="{{ lang }}" data-mode="{{ 'static' if static_mode else 'server' }}">
 {% macro record_list(doc, limit=none) %}
   <ol class="records">
   {% for item in (doc.entries[:limit] if limit else doc.entries) %}
@@ -33,7 +33,7 @@
     <a class="brand" href="#home" aria-label="{{ t.name }}"><span class="brand-monogram" aria-hidden="true">W<span>.</span></span><span class="brand-name">{{ t.name }}<small>{{ 'Wei-Chen Wu' if lang == 'zh' else '吳威震' }}</small></span></a>
     <button class="menu-toggle" aria-label="{{ t.menu }}" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button>
     <nav id="nav-links" class="nav-links" aria-label="{{ t.menu }}">{% for id, label in t.nav %}<a href="#{{ id }}">{{ label }}</a>{% endfor %}</nav>
-    <a class="language-toggle" href="?lang={{ 'en' if lang == 'zh' else 'zh' }}" aria-label="{{ t.switch }}" lang="{{ 'en' if lang == 'zh' else 'zh-Hant' }}"><span aria-hidden="true">◎</span> {{ 'EN' if lang == 'zh' else '中文' }}</a>
+    <a class="language-toggle" href="{{ language_url }}" aria-label="{{ t.switch }}" lang="{{ 'en' if lang == 'zh' else 'zh-Hant' }}"><span aria-hidden="true">◎</span> {{ 'EN' if lang == 'zh' else '中文' }}</a>
   </div>
 </header>
 <main id="main">
@@ -105,9 +105,10 @@
     </div>
   </section>
 
-  <section id="contact" class="contact-section"><div class="container contact-grid"><div><p class="eyebrow">{{ t.join_kicker }}</p><h2>{{ t.join_title }}</h2><p>{{ t.join_text }}</p></div><div class="contact-actions"><a href="mailto:{{ contact.email }}" class="contact-email">{{ contact.email }} <span aria-hidden="true">↗</span></a><a class="phone-link" href="tel:{{ contact.phone_uri }}">{{ t.phone }} · {{ contact.phone }}</a><button class="button primary open-chat" type="button">{{ t.message }} <span aria-hidden="true">↗</span></button></div></div></section>
+  <section id="contact" class="contact-section"><div class="container contact-grid"><div><p class="eyebrow">{{ t.join_kicker }}</p><h2>{{ t.join_title }}</h2><p>{{ t.join_text }}</p></div><div class="contact-actions"><a href="mailto:{{ contact.email }}" class="contact-email">{{ contact.email }} <span aria-hidden="true">↗</span></a><a class="phone-link" href="tel:{{ contact.phone_uri }}">{{ t.phone }} · {{ contact.phone }}</a>{% if static_mode %}<a class="button primary" href="mailto:{{ contact.email }}">{{ t.email }} <span aria-hidden="true">↗</span></a>{% else %}<button class="button primary open-chat" type="button">{{ t.message }} <span aria-hidden="true">↗</span></button>{% endif %}</div></div></section>
 </main>
 <footer class="container footer"><p>{{ t.footer }}</p><a href="#home">{{ t.top }} ↑</a></footer>
+{% if not static_mode %}
 <button class="chat-launcher open-chat" type="button" aria-haspopup="dialog" aria-controls="chat-dialog"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 11a8 8 0 0 1-8 8H5l-3 3V11a9 9 0 0 1 18 0Z"/><path d="M7 10h8M7 14h5"/></svg><span>{{ t.chat_title }}</span></button>
 <dialog id="chat-dialog" class="chat-dialog" aria-labelledby="chat-heading"
   data-enabled="{{ 'true' if chat_enabled else 'false' }}"
@@ -118,5 +119,6 @@
   {% else %}<div class="chat-offline"><a class="button primary" href="mailto:{{ contact.email }}">{{ t.email }} ↗</a></div>{% endif %}
   <noscript>{{ t.chat_no_js }}</noscript>
 </dialog>
+{% endif %}
 </body>
 </html>
