@@ -3,7 +3,7 @@ from pathlib import Path
 from zipfile import ZipFile, ZIP_DEFLATED
 
 ROOT = Path(__file__).resolve().parents[1]
-FILES = ['app.py', 'chat.py', 'content_store.py', 'labels.py', 'requirements.txt', 'requirements.lock',
+FILES = ['app.py', 'content_store.py', 'labels.py', 'requirements.txt', 'requirements.lock',
          'requirements-dev.txt', 'pytest.ini', 'README.md', '.gitignore', '.env.example', '.dockerignore',
          'Dockerfile', 'compose.yaml', 'render.yaml']
 DIRECTORIES = ['templates', 'static', 'content', 'downloads', 'docs', 'scripts', 'tests', '.github']

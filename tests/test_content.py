@@ -4,14 +4,14 @@ import shutil
 import pytest
 
 from app import create_app
-from content_store import ContentStore, FILES, ROOT, record_year, safe_markdown
+from content_store import ContentStore, FILES, ROOT, record_year, safe_markdown, source_directory
 
 
 @pytest.fixture
 def app(tmp_path):
     content = tmp_path / 'content'
     shutil.copytree(ROOT / 'content/zh', content)
-    return create_app({'TESTING': True, 'SECRET_KEY': 'test-secret', 'DATABASE_PATH': str(tmp_path / 'test.sqlite3'), 'CONTENT_DIR': content})
+    return create_app({'TESTING': True, 'CONTENT_DIR': content})
 
 
 def test_all_source_records_are_present(app):
@@ -93,16 +93,65 @@ def test_unknown_cv_is_not_a_file_read(app):
     assert client.get('/cv/../../.env').status_code == 404
 
 
-def test_unconfigured_chat_is_honest(app):
-    app.config.update(LINE_CHANNEL_SECRET='', LINE_CHANNEL_ACCESS_TOKEN='', LINE_ADMIN_USER_ID='')
+def test_messaging_routes_removed_even_with_old_configuration(app):
+    app.config.update(LINE_CHANNEL_SECRET='old-secret', LINE_CHANNEL_ACCESS_TOKEN='old-token', LINE_ADMIN_USER_ID='old-admin')
     client = app.test_client()
-    assert client.get('/api/chat/session').json == {'enabled': False}
-    assert client.post('/api/chat/messages', json={}).status_code == 503
-    assert '線上留言尚未開放' in client.get('/').text
+    for path in ('/api/chat/session', '/api/chat/messages', '/line/webhook'):
+        assert client.get(path).status_code == 404
+        assert client.post(path, json={}).status_code == 404
+    for lang in ('zh', 'en'):
+        page = client.get('/?lang=' + lang).text
+        assert 'chat-dialog' not in page
+        assert 'open-chat' not in page
+        assert 'LINE' not in page
+    assert 'cleanup-chat' not in app.cli.commands
+    assert 'chat' not in app.blueprints
 
 
-def test_production_requires_stable_secret(monkeypatch):
+def test_production_is_stateless_and_preserves_security_headers(monkeypatch):
     monkeypatch.setenv('APP_ENV', 'production')
-    monkeypatch.setenv('SECRET_KEY', '')
-    with pytest.raises(RuntimeError, match='persistent SECRET_KEY'):
-        create_app()
+    response = create_app().test_client().get('/')
+    assert response.status_code == 200
+    assert 'Set-Cookie' not in response.headers
+    assert response.headers['Strict-Transport-Security'] == 'max-age=31536000'
+    assert "script-src 'self'" in response.headers['Content-Security-Policy']
+
+
+def test_default_content_uses_project_edits(monkeypatch, tmp_path):
+    monkeypatch.delenv('SOURCE_MD_DIR', raising=False)
+    assert source_directory() == ROOT / 'content/zh'
+    monkeypatch.setenv('SOURCE_MD_DIR', str(tmp_path))
+    assert source_directory() == tmp_path
+
+
+@pytest.mark.parametrize('lang', ['zh', 'en'])
+def test_cv_is_visible_before_research_and_services_are_complete(app, lang):
+    page = app.test_client().get('/?lang=' + lang).text
+    profile = page.split('<section id="about"', 1)[1].split('</section>', 1)[0]
+    assert '<details' not in profile
+    assert page.index('id="about"') < page.index('id="research"')
+    assert 'ECC52782528612' in profile
+    assert 'post-quantum cryptography' in profile if lang == 'en' else '後量子密碼學' in profile
+    docs = app.extensions['content_store'].all(lang)
+    assert not docs['profile']['pending']
+    assert not docs['services']['pending']
+    assert docs['services']['count'] == 20
+    services = page.split('<section id="services"', 1)[1].split('</section>', 1)[0]
+    assert services.count('class="record"') == 20
+    assert '2024–2026' in services if lang == 'en' else '113~115' in services
+    assert 'Standing Supervisor' in services if lang == 'en' else '常務監事' in services
+    cv = app.test_client().get('/cv/' + lang + '.md').text
+    assert docs['services']['text'] in cv.replace('### ', '## ')
+
+
+def test_service_updates_invalidate_translation_and_cv(app):
+    store = app.extensions['content_store']
+    path = store.directory / '服務.md'
+    before = store.version()
+    path.write_text(path.read_text().replace('113~115年度', '116年度'))
+    assert store.version() != before
+    english = store.document('services', 'en')
+    assert english['pending']
+    assert '116年度' in english['text']
+    assert '2024–2026' not in english['text']
+    assert '116年度' in store.cv('en')

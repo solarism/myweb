@@ -1,10 +1,10 @@
 # 吳威震教授個人網站
 
-Python / Flask 中英雙語單頁 RWD 網站。研究主軸為資通安全、人工智慧、區塊鏈與量子金融；頁首導覽可一鍵移至各區。網站完整載入十份 Markdown，提供中英文 Markdown CV 下載，以及學生網站留言 ↔ 教授 LINE 回覆。
+Python / Flask 中英雙語 RWD 網站。內容包含個人履歷、研究計畫、學術著作、教學、產學合作、專利、榮譽及專業服務，並提供中英文 Markdown CV 下載。可在 Flask 執行，也可匯出靜態 HTML 至 GitHub Pages。
 
 ## 本機啟動
 
-需要 Python 3.12。請在 `myweb` 資料夾執行：
+使用 Python 3.12，在專案目錄執行：
 
 ```bash
 python3 -m venv .venv
@@ -14,149 +14,82 @@ cp .env.example .env
 python app.py
 ```
 
-開啟 <http://127.0.0.1:5000>，英文版為 <http://127.0.0.1:5000/?lang=en>。Windows 的啟用指令為 `.venv\Scripts\activate`。已建立虛擬環境時只需啟用後執行 `python app.py`。
+中文頁為 <http://127.0.0.1:5000>，英文頁為 <http://127.0.0.1:5000/?lang=en>。網站無訊息轉送、聊天 API、webhook 或資料庫需求。正式環境設定 `APP_ENV=production`；只有位於可信任反向代理後方時才設定 `TRUST_PROXY=1`。
 
-本機沒有填 LINE 金鑰也能瀏覽完整網站與下載 CV；聊天框會提供 Email 聯絡入口。更改 Python、HTML 或 CSS 後請重新啟動伺服器；只改來源 Markdown 不必重新啟動。
+## 內容與版面
 
-## 內容如何分類
-
-| 網站區域 | 資料來源 |
+| 網站區域 | Markdown 檔案 |
 | --- | --- |
-| 首頁、關於、研究及授課領域、學經歷、證照、學術連結、聯絡資訊 | `CV.md` |
-| 研究 | `國科會計劃.md`、`其他計劃.md` |
+| 個人履歷、學術檔案、學經歷、研究及授課領域、證照 | `CV.md` |
+| 專業服務 | `服務.md` |
+| 研究計畫 | `國科會計劃.md`、`其他計劃.md` |
 | 學術著作 | `期刊論文.md`、`研討會論文.md`、`專著及專書論文.md` |
 | 教學與海外實習 | `教育部計劃.md` |
 | 產學合作與專利 | `產學計劃.md`、`專利.md` |
 | 榮譽 | `榮譽.md` |
 
-## 修改 Markdown 自動更新
+履歷位於首頁主視覺後，直接顯示，不需要展開或下載才能閱讀。服務區塊直接顯示全部紀錄。聯絡專線保留於 CV 下載檔，不呈現在網頁上。
 
-讀取順序：
+研究主視覺使用本機 JavaScript 計算三維座標、透視投影與 SVG 繪圖：
 
-1. `.env` 若有 `SOURCE_MD_DIR`，以此資料夾為準（十個檔案需齊全）。
-2. 若上一層有 `CV.md`，直接讀取上一層十份原始附件。因此您目前修改 `CV` 資料夾的附件，網站下次讀取就會更新。
-3. 在 GitHub 部署的獨立專案則使用 `content/zh/` 中的附件副本。
+- 移動滑鼠改變視角，拖曳旋轉；觸控螢幕可左右滑動旋轉並保留垂直頁面捲動。
+- 方向鍵旋轉，加減鍵或按鈕縮放，Home 或「重設視角」恢復初始位置。
+- 圖形只在互動後更新，不持續自動旋轉。偏好減少動態效果時停用滑鼠懸停視差與平滑過渡，仍可主動拖曳或使用鍵盤。
+- 停用 JavaScript 時保留靜態研究關係圖、文字說明、履歷與清單。
 
-網頁每次請求重新讀取檔案；已開啟的閒置頁面每 30 秒檢查更新，聊天期間暫緩重新整理。清單數量、CV 下載、聯絡 Email 與電話均跟著來源變更。CV 使用 `##` 標題，成果使用編號清單，每一筆由 `1.` 等編號起始；保留各筆之間的 Markdown 結構。
+版面與字級在 `static/site.css`，中英文介面標題在 `labels.py`。
 
-把目前電腦的附件更新帶到 GitHub 前，先執行：
+## 修改與翻譯
 
-```bash
-python scripts/sync_content.py --snapshot
-```
+預設讀取專案內的 `content/zh/`，不會自動讀取上一層的舊附件。若要使用外部來源，可在 `.env` 設定 `SOURCE_MD_DIR`，指定資料夾需包含上表全部 11 份檔案。
 
-此命令只將原附件複製到 `content/zh/`，不會修改上一層的原始檔案。遠端主機不能直接讀取您電腦的 Google Drive 資料夾；要將副本提交 GitHub 並重新部署，遠端內容才會更新。自己架設主機時也可將來源資料夾掛載到伺服器。
+中文直接呈現來源 Markdown。英文譯稿在 `content/en/` 的同名檔案中。`content/translations.json` 依原文段落、標題與清單項目的 SHA-256 指紋配對譯文；中文修改後，未同步的英文段落會顯示最新原文並標註待翻譯，避免沿用過時資料。
 
-## 中英文內容維護
-
-初始十份資料已提供英文版本；中文履歷也補齊了原英文簡介的中文翻譯。英文論文引用通常保留原發表語言，未提供拼音的共同作者保留原姓名。
-
-- 原文：`content/zh/` 或 `SOURCE_MD_DIR` 指定的位置。
-- 英文譯稿：`content/en/` 中的同名 Markdown。
-- 中文 CV 譯稿：`content/CV.zh.md`。
-- 上線配對檔：`content/translations.json`，按原文每個段落／標題／條目的 SHA-256 對應譯文。
-
-**修改中文後，網頁及 CV 立即呈現最新內容；變動段落若尚未同步英文，英文版會顯示最新原文並標註待翻譯，不會沿用過時英文。** 未變動段落仍顯示已完成的英文。這是離線可用的來源對應機制，不會默默把履歷送往第三方翻譯服務。
-
-要同步譯文，編輯 `content/en/` 對應檔；若改了 `CV.md`，也同步 `content/CV.zh.md`。請維持相同的段落、標題、編號順序，確認譯稿確實反映最新原文後執行：
+更新中英文檔案後，維持相同的段落、標題與編號順序，再執行：
 
 ```bash
-python scripts/sync_content.py --snapshot --approve-translations
+python scripts/sync_content.py --approve-translations
 ```
 
-此操作會明確將目前原文與譯稿配對。不要在譯稿尚未更新時執行 `--approve-translations`。新增項目時兩種語言都要新增對應段落。網頁上的宣傳標語、導覽文字與品牌設定在 `labels.py`；研究成果本身由 Markdown 載入。
+此命令配對譯文並更新 `downloads/` 的完整履歷。若只要重新產生 CV，執行 `python scripts/sync_content.py`。使用外部來源時，`--snapshot` 可將來源複製到 `content/zh/`；不要用未更新的外部附件覆蓋專案中的新版本。
+
+Flask 每次請求重新讀取 Markdown，已開啟的頁面每 30 秒檢查更新。靜態版本須重新匯出或部署後重新整理。
 
 ## CV 下載
 
 - 中文：`/cv/zh.md`
 - 英文：`/cv/en.md`
 
-兩者均即時組合全部十份附件，包含學經歷、完整著作、各項計畫、專利與榮譽。已預先產生的檔案也在 `downloads/`；`python scripts/sync_content.py` 可重新產生。
+兩者組合全部 11 份內容，包含完整著作、計畫、專利、榮譽及服務。預先產生的版本位於 `downloads/`。來源資料核對紀錄見 [資料核對.md](docs/資料核對.md)。
 
-## LINE 雙向對話
+## GitHub Pages
 
-完整步驟見 [LINE設定.md](docs/LINE設定.md)。需準備：
+`.github/workflows/pages.yml` 會在 `main` 分支推送後執行測試、匯出與部署。儲存庫的 Pages 設定須選擇 **GitHub Actions** 作為來源。靜態頁使用相對路徑，支援 `/myweb/` 子路徑；英文頁為 `en.html`。
 
-- `LINE_CHANNEL_ACCESS_TOKEN`
-- `LINE_CHANNEL_SECRET`
-- `LINE_ADMIN_USER_ID`（教授本人的 Messaging API user ID）
-- 固定的 `SECRET_KEY` 與公開 HTTPS 網址
-
-Webhook 為 `/line/webhook`。學生提交後，教授的 LINE 收到對話代碼；教授傳送 `/reply 代碼 回覆內容`，學生原瀏覽器的聊天框即可顯示回覆。此功能不需要學生的 LINE 帳號，也不會用 AI 代替教授回覆。
-
-聊天 Cookie 為 HttpOnly / SameSite，正式環境加 Secure；後端驗證 LINE 簽章與教授身分，處理 webhook 去重、傳送重試與限流。SQLite 預設保存訊息 30 天；部署時需使用持久磁碟。
-
-## 上傳 GitHub
-
-專案已包含 `.gitignore`、測試工作流程、Docker 與 Render 部署設定。沒有指定 GitHub 帳號或儲存庫，因此沒有建立遠端 repo 或自動公開資料。
-
-方式一：在 GitHub 建立空的 repository，解壓縮 `dist/professor-website.zip`，將裡面 `myweb` 的**內容**上傳到儲存庫根目錄。請保留 `.github` 等隱藏檔案。
-
-方式二：使用 Git（將最後一個網址換成自己的空儲存庫）：
-
-```bash
-git init
-git add .
-git commit -m "Build bilingual professor website"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
-git push -u origin main
-```
-
-`.env`、虛擬環境、聊天紀錄及資料庫均排除。上傳前可執行 `git status --short` 確認。附件中的聯絡資料、經費與證照編號屬網站內容，已依需求保留；詳見 [資料核對.md](docs/資料核對.md)。
-
-## 部署
-
-暫不啟用 LINE 時，可直接使用 **GitHub Pages**，免費展示中英文網頁與 CV 下載。程式會在 GitHub Actions 中用 Python 將 Markdown 轉成靜態 HTML，GitHub Pages 不需要執行 Flask。
-
-### GitHub Pages（目前建議）
-
-您的網站預計網址：**https://solarism.github.io/myweb/**，英文版為 **https://solarism.github.io/myweb/en.html**。完成下列步驟且部署成功後才可使用。
-
-1. 將本次更新的程式碼提交並推送到 `solarism/myweb` 的 `main` 分支（包含 `.github/workflows/pages.yml`）。
-2. 開啟 [儲存庫 Pages 設定](https://github.com/solarism/myweb/settings/pages)。
-3. 在 **Build and deployment → Source** 選擇 **GitHub Actions**。
-4. 到 [Actions](https://github.com/solarism/myweb/actions)，選擇 **Deploy GitHub Pages**。若尚未自動執行，點 **Run workflow → main → Run workflow**。
-5. 等待 `build` 和 `deploy` 都顯示綠色勾號，再開啟上方網站網址。發布可能需要幾分鐘。
-
-若使用 GitHub 免費方案，儲存庫需要為公開；若私人儲存庫的 Pages 設定提示方案限制，請依您的公開偏好及帳號方案選擇處理，不必為了使用本程式啟用 LINE。
-
-GitHub Pages 版本隱藏聊天框、保留 Email 聯絡方式，不會呼叫 LINE 或 Flask API。將來需要 LINE 雙向對話時，可使用下方的 Python 主機方案。
-
-之後直接修改 GitHub 的 `content/zh/*.md` 並提交，Actions 便會自動重新建立網站與兩種 CV。若在本機修改上一層原附件，先執行 `python scripts/sync_content.py --snapshot`，再將 `content/zh/` 的變更推送 GitHub。英文譯文維護方式同前節。此靜態版本在部署後重新整理網頁即可看到更新。
-
-本機產生與預覽靜態版本：
+本機匯出與預覽：
 
 ```bash
 python scripts/export_static.py
 python -m http.server 8000 --directory dist/pages
 ```
 
-開啟 <http://127.0.0.1:8000>。`dist/pages` 僅含中英文 HTML、公開 CSS／JavaScript／圖示與 CV 檔，不包含原始程式、環境變數或聊天資料。
+開啟 <http://127.0.0.1:8000>。靜態輸出只包含中英文 HTML、CSS、JavaScript、圖示及 CV 檔案，不呼叫 Flask API。
 
-官方參考：[建立 Pages 網站](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)、[使用自訂 Actions 部署](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。
-
-**若要啟用 LINE，完整功能仍需要可執行 Python 的主機**；GitHub Pages 無法接收 LINE webhook。
-
-### Render
-
-將 GitHub repo 連結到 Render，使用根目錄的 `render.yaml` 建立 Blueprint。此設定使用付費 Web Service 及 1 GB 持久磁碟，需在 Render 確認方案才會建立，本專案尚未替您訂購或部署。SQLite 檔案在 `/var/data/chat.sqlite3`；請填入秘密環境變數，完成後取得 HTTPS 網址並設定 LINE webhook。
-
-若暫不啟用聊天，可手動建立 Python Web Service，不填三個 LINE 變數；但正式使用聊天前仍須配置持久磁碟。免費服務的臨時檔案系統不能保證聊天紀錄保留。
-
-建置：`pip install -r requirements.lock`。
-
-啟動：`gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 60 'app:create_app()'`。
-
-### Docker 或自己的伺服器
+## Docker 或 Python 主機
 
 ```bash
 cp .env.example .env
-# 編輯 .env，設定 SECRET_KEY；正式 HTTPS 部署再設 APP_ENV=production
 docker compose up --build -d
 ```
 
-本機網址為 <http://127.0.0.1:8000>，對話放在 Docker named volume。Compose 掛載 `./content`，修改內容可直接反映；對外部署請在前方設定 HTTPS 反向代理。`APP_ENV=production` 需要至少 32 字元的固定 `SECRET_KEY`，並且必須使用 HTTPS 才能正常保存聊天 Cookie。
+本機網址為 <http://127.0.0.1:8000>。Compose 掛載 `./content` 為唯讀來源。對外使用時設定 HTTPS 反向代理。`render.yaml` 提供 Python Web Service 設定，不需要持久資料磁碟；套用設定前可自行選擇主機方案。
+
+建置與啟動命令：
+
+```bash
+pip install -r requirements.lock
+gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 60 'app:create_app()'
+```
 
 ## 驗證與打包
 
@@ -167,22 +100,4 @@ node --check static/site.js
 python scripts/package.py
 ```
 
-封裝工具採明確的檔案白名單，不會把 `.env`、聊天資料庫、Git 設定或虚擬環境裝入 ZIP。網站對外啟用前，仍需用真實 LINE 帳號完成一次雙向收發測試。
-
-## 主要檔案
-
-```text
-app.py                  Flask 入口、網頁、CV 與安全標頭
-content_store.py        Markdown 讀取、翻譯配對、HTML 清理
-chat.py                 LINE API、webhook、SQLite 對話
-labels.py               中英文介面與網站標語
-templates/index.html    單頁結構
-static/                 RWD CSS、對話及導覽 JavaScript
-content/                十份附件副本與英文譯稿
-downloads/              預先產生的中英文 Markdown CV
-tests/                  資料與 LINE 整合測試
-scripts/                同步、CV 產生及打包工具
-docs/                   LINE 設定與附件核對紀錄
-```
-
-部署文件依據：[Flask 正式部署](https://flask.palletsprojects.com/en/stable/deploying/)、[Render Flask 部署](https://render.com/docs/deploy-flask)、[Render 持久磁碟](https://render.com/docs/disks)。
+ZIP 使用檔案白名單，排除 `.env`、資料庫、Git 設定與虛擬環境。

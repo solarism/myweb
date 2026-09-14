@@ -31,11 +31,7 @@ def main():
             if len(source) != len(translated):
                 raise SystemExit(f'{filename}: source has {len(source)} units; English has {len(translated)}. Match paragraph/heading/item boundaries before approving.')
             new_pairs.extend(('en', digest(a), b) for a, b in zip(source, translated))
-        source = units(store.source('profile'))
-        chinese = units((ROOT / 'content/CV.zh.md').read_text())
-        if len(source) != len(chinese):
-            raise SystemExit('CV.zh.md must match source CV paragraph/heading/item boundaries.')
-        new_pairs.extend(('zh', digest(a), b) for a, b in zip(source, chinese))
+        registry.pop('zh', None)
         for lang, hashed, translation in new_pairs:
             registry.setdefault(lang, {})[hashed] = translation
         (ROOT / 'content/translations.json').write_text(json.dumps(registry, ensure_ascii=False, indent=2) + '\n')

@@ -4,20 +4,17 @@ Bibliographic titles retain their publication language where appropriate. Dates,
 
 ## Profile
 
-### Vita
-Dr. Wei-Chen Wu was born in Taipei, Taiwan R.O.C. He is Associate Professor in the Department of Finance at the National Taipei University of Business. He received his Ph.D. degree in Information Management from National Central University in 2016. From 2021-2023, He was Assistant Professor in the Department of Finance at the National Taipei University of Business.
-From 2020-2021, He was Assistant Professor in the Department of Finance at the Feng Chia University. From 2008-2016, he was also Assistant Professor and Director of the Computer Center at Hsin Sheng College of Medical Care and Management. His teaching interests lie in the area of programming languages, ranging from theory to design to implementation and his current research interests include blockchain technology, fintech cybersecurity, network security, and deep learning. Wei-Chen Wu has collaborated actively with researchers in several other disciplines of computer science. He has served on many conference and workshop program committees and served as the workshop chair for Frontier Computing Conference(FC2017~FC2021) and Machine Learning on FinTech, Security and Privacy Conference (MLFSP2020~MLFSP2019).
+### Biography
+Wei-Chen Wu is an Associate Professor in the Department of Finance at National Taipei University of Business. He received his Ph.D. in Information Management from National Central University in 2016. His teaching interests include artificial intelligence, design, and implementation, and his research focuses on blockchain technology, financial information security, and post-quantum cryptography. He previously served as an Assistant Professor in the Department of Finance at National Taipei University of Business (2021–2023), an Assistant Professor in the Department of Finance at Feng Chia University (2020–2021), and an Assistant Professor and Director of the Computer Center at Hsin Sheng College of Medical Care and Management (2008–2016).
 
-I currently serve in the Department of Finance at National Taipei University of Business, where I teach courses related to financial technology and information technology. My earlier areas of expertise were cryptography and information and communications security. I also serve as a judge in the Cyber Security skill category of the Ministry of Labor's National Skills Competition. My current research focuses on blockchain, machine learning, and quantum finance. Please feel free to contact me at weichen At ntub.edu.tw to exchange ideas.
-
-### Contributions
-Scopus https://www.scopus.com/authid/detail.uri?authorId=12807634400
-ORCID https://orcid.org/0000-0002-2419-6453
-Scholar https://scholar.google.com.tw/citations?user=0vyk6SIAAAAJ&hl=zh-TW
-DBLP https://dblp.org/pid/41/52
+### Academic Profiles
+[Scopus](https://www.scopus.com/authid/detail.uri?authorId=12807634400)
+[ORCID](https://orcid.org/0000-0002-2419-6453)
+[Google Scholar](https://scholar.google.com.tw/citations?user=0vyk6SIAAAAJ&hl=zh-TW)
+[DBLP](https://dblp.org/pid/41/52)
 
 ### Education
-Ph.D. in Information Management (Systems Track), National Central University
+Ph.D. in Information Management (Systems Track), National Central University, 2016
 
 ### Experience
 Assistant Professor and Deputy Director of the FinTech Research Center, Department of Finance, Feng Chia University (2 years)
@@ -36,7 +33,7 @@ Financial Technology, Programming Languages, Artificial Intelligence
 
 ### Professional Certifications
 
-1. Certificated Ethical Hacker (CEH), ethical hacking professional certification; Issuer: EC-Council; ECC1708536924
+1. Certified Ethical Hacker (CEH), ethical hacking professional certification; Issuer: EC-Council; ECC1708536924
 
 2. Certified EC-Council Instructor (CEI), EC-Council-authorized instructor; Issuer: EC-Council; ECC52782528612
 
@@ -52,6 +49,50 @@ Financial Technology, Programming Languages, Artificial Intelligence
 
 ### Contact Phone
 +886-2-2322-6477
+
+## Professional Service
+
+### Professional Service
+
+1. Judge, Cyber Security skill category, National Skills Competition, Ministry of Labor.
+
+2. Reviewer, Teaching Practice Research Program, Ministry of Education, 2024–2026 (ROC years 113–115).
+
+3. Cybersecurity course lecturer, Administration for Cyber Security, Ministry of Digital Affairs.
+
+4. AI course lecturer, Industry Competitiveness Advisory Team, Industrial Development Administration, Ministry of Economic Affairs.
+
+5. AI course lecturer, civil service AI training, Directorate-General of Personnel Administration, Executive Yuan.
+
+6. AI course lecturer, industry consulting academy, Institute for Information Industry.
+
+7. Designated instructor for corporate training, UCOM Training Center.
+
+8. Certified EC-Council Instructor (CEI).
+
+9. Course lecturer, National Center for Cyber Security Technology, Executive Yuan.
+
+10. Member, IEEE Consumer Technology Society (CTSoC) SPC Technical Committee.
+
+11. Track Chair, IEEE 42nd International Conference on Consumer Electronics.
+
+12. Standing Supervisor, 3rd term, Taiwan E-Security Analysis and Management Association.
+
+13. Course lecturer, Taiwan E-Security Analysis and Management Association.
+
+14. Course lecturer and examination question setter, Taiwan Academy of Banking and Finance.
+
+15. Examination grader, Civil Service Senior Examination (Level 3) and Junior Examination, Examination Yuan.
+
+16. Examination question setter and grader, Securities and Futures Institute.
+
+17. Life member, Taiwan Association of Quantum Computing and Information Technology.
+
+18. Life member, Information Service Association of Chinese Colleges (ISAC).
+
+19. Life member, Taiwan E-Security Analysis and Management Association.
+
+20. Life member, Chinese Cryptology and Information Security Association (CCISA).
 
 ## Journal articles
 
@@ -299,15 +340,15 @@ Financial Technology, Programming Languages, Artificial Intelligence
 
 1. Wei-Chen Wu; 2026~2027; National Science and Technology Council Research Project; Decentralized Finance in the Post-Quantum Era: Implementing an Ethereum Resilience Framework Integrating NIST FIPS 204 and Zero-Knowledge Proofs; Project No. NSTC 115-2221-E-141-008-MY2; Approved Funding: NT$1,860,000; Ongoing
 
-2. 魏銪志, 林敬皇, Wei-Chen Wu, 藍中賢; 2026~2027; National Science and Technology Council Practical Research Project for Technological and Vocational Colleges and Universities (Interdisciplinary Implementation); Research on Enhanced Medical Ultrasound Image Recognition, Intelligent Report Generation, and Image Privacy Enhancement Technologies; Project No. NSTC 114-2637-8-027-001; Approved Funding: NT$4,000,000; Ongoing
+2. Yu-Chi Wei, Ching-Huang Lin, Wei-Chen Wu, Chung-Hsien Lan; 2026~2027; National Science and Technology Council Practical Research Project for Technological and Vocational Colleges and Universities (Interdisciplinary Implementation); Research on Enhanced Medical Ultrasound Image Recognition, Intelligent Report Generation, and Image Privacy Enhancement Technologies; Project No. NSTC 114-2637-8-027-001; Approved Funding: NT$4,000,000; Ongoing
 
 3. Wei-Chen Wu; 2023; National Science and Technology Council Grant for Domestic Experts and Scholars to Attend International Academic Conferences; The 13th International Conference on Frontier Computing; Project No. NSTC 112-2914-I-141-004-A1; Approved Funding: NT$30,000; Completed
 
 4. Wei-Chen Wu; 2021; Ministry of Science and Technology Research Project; Building a Decentralized Financial Trading Ecosystem Based on a Recurrent Neural Network Oracle; Project No. MOST 110-2410-H-035-029; Approved Funding: NT$610,000; Completed
 
-5. 廖鴻圖, Wei-Chen Wu; 2019; Ministry of Science and Technology Research Project; Research on an Electronic Medical Record Exchange Mechanism Integrating a Real-Name Blockchain with My Health Bank; Project No. MOST 108-2410-H-128-020; Approved Funding: NT$496,000; Completed
+5. Horng-Twu Liaw, Wei-Chen Wu; 2019; Ministry of Science and Technology Research Project; Research on an Electronic Medical Record Exchange Mechanism Integrating a Real-Name Blockchain with My Health Bank; Project No. MOST 108-2410-H-128-020; Approved Funding: NT$496,000; Completed
 
-6. 徐建業, 許立民, 洪論評, 祝國忠, Wei-Chen Wu; 2015~2017; Ministry of Science and Technology Research Project; A Next-Generation Intelligent Healthcare System Integrated with Electronic Medical Records; Project No. MOST 104-2218-E-227-002-MY3; Approved Funding: NT$3,577,000; Completed
+6. Chien-Yeh Hsu, Li-min Xu, Lun-Ping Hung, Kuo-Chung Chu, Wei-Chen Wu; 2015~2017; Ministry of Science and Technology Research Project; A Next-Generation Intelligent Healthcare System Integrated with Electronic Medical Records; Project No. MOST 104-2218-E-227-002-MY3; Approved Funding: NT$3,577,000; Completed
 
 7. Wei-Chen Wu; 2009; Graduate Student Attendance at an International Conference: The Fifth International Conference on Intelligent Information Hiding and Multimedia Signal Processing; Ministry of Science and Technology Grant for Graduate Students to Attend International Conferences; Project No. MOST 98-2922-I-008-080; Approved Funding: NT$20,000; Completed
 

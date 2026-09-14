@@ -24,7 +24,7 @@ def export_site(output, source=None):
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     store = ContentStore(source or ROOT / 'content/zh')
-    # Rendering does not import app.py, load .env, create a DB or contact LINE.
+    # Rendering uses only the bundled public content and templates.
     renderer = Flask(__name__, template_folder=str(ROOT / 'templates'))
     renderer.jinja_env.globals['url_for'] = static_url
     version = store.version()
@@ -35,7 +35,7 @@ def export_site(output, source=None):
                 'index.html', lang=lang, t=LABELS[lang], docs=docs,
                 publication_count=sum(docs[k]['count'] for k in ('journals', 'conferences', 'books')),
                 project_count=sum(docs[k]['count'] for k in ('nstc', 'moe', 'industry', 'other')),
-                version=version, chat_enabled=False, retention=0, contact=store.contact(),
+                version=version,
                 static_mode=True, language_url='en.html' if lang == 'zh' else 'index.html',
             )
             (output / filename).write_text(html, encoding='utf-8')

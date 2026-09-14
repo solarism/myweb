@@ -12,6 +12,7 @@ from markupsafe import Markup
 ROOT = Path(__file__).resolve().parent
 FILES = {
     'profile': ('CV.md', '個人履歷', 'Profile'),
+    'services': ('服務.md', '專業服務', 'Professional Service'),
     'journals': ('期刊論文.md', '期刊論文', 'Journal articles'),
     'conferences': ('研討會論文.md', '研討會論文', 'Conference papers'),
     'books': ('專著及專書論文.md', '專著及專書論文', 'Books & book chapters'),
@@ -37,7 +38,7 @@ def source_directory():
     explicit = os.getenv('SOURCE_MD_DIR', '').strip()
     if explicit:
         return Path(explicit).expanduser().resolve()
-    return ROOT.parent if (ROOT.parent / 'CV.md').exists() else ROOT / 'content/zh'
+    return ROOT / 'content/zh'
 
 
 def safe_markdown(text):
@@ -51,7 +52,7 @@ def safe_markdown(text):
 
 
 def record_year(text, key):
-    if key in ('patents', 'honors', 'profile'):
+    if key in ('patents', 'honors', 'profile', 'services'):
         return ''
     without_urls = re.sub(r'https?://\S+', '', text)
     if key in ('journals', 'books', 'conferences'):
@@ -64,7 +65,7 @@ def record_year(text, key):
 
 def profile_group(heading):
     for key, terms in {'bio': ('Vita', '個人簡介'), 'research': ('研究', 'Research'),
-                       'teaching': ('授課', 'Teaching'), 'links': ('Contributions', '學術貢獻'),
+                       'teaching': ('授課', 'Teaching'), 'links': ('Contributions', '學術貢獻', '學術檔案'),
                        'phone': ('聯絡', 'Contact')}.items():
         if any(term.lower() in (heading or '').lower() for term in terms):
             return key
@@ -86,7 +87,8 @@ class ContentStore:
         return digest(''.join(self.source(key) for key in FILES) + json.dumps(self.translations(), sort_keys=True))
 
     def localized(self, key, lang):
-        dictionary = self.translations().get(lang, {})
+        # Chinese Markdown is authoritative; never replace edits with legacy copies.
+        dictionary = self.translations().get(lang, {}) if lang == 'en' else {}
         output, pending = [], False
         for unit in units(self.source(key)):
             translated = dictionary.get(digest(unit))

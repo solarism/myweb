@@ -1,17 +1,14 @@
-## Vita
-Dr. Wei-Chen Wu was born in Taipei, Taiwan R.O.C. He is Associate Professor in the Department of Finance at the National Taipei University of Business. He received his Ph.D. degree in Information Management from National Central University in 2016. From 2021-2023, He was Assistant Professor in the Department of Finance at the National Taipei University of Business.
-From 2020-2021, He was Assistant Professor in the Department of Finance at the Feng Chia University. From 2008-2016, he was also Assistant Professor and Director of the Computer Center at Hsin Sheng College of Medical Care and Management. His teaching interests lie in the area of programming languages, ranging from theory to design to implementation and his current research interests include blockchain technology, fintech cybersecurity, network security, and deep learning. Wei-Chen Wu has collaborated actively with researchers in several other disciplines of computer science. He has served on many conference and workshop program committees and served as the workshop chair for Frontier Computing Conference(FC2017~FC2021) and Machine Learning on FinTech, Security and Privacy Conference (MLFSP2020~MLFSP2019).
+## 個人簡介
+現任國立臺北商業大學財務金融學系副教授，於2016年取得國立中央大學資訊管理學博士學位。教學興趣涵蓋人工智慧、設計與實作，研究方向聚焦於區塊鏈技術、金融資訊安全與後量子密碼學。曾任國立臺北商業大學財務金融學系助理教授（2021–2023年）、逢甲大學財務金融學系助理教授（2020–2021年），以及新生醫護管理專科學校助理教授兼電算中心主任（2008–2016年）。
 
-我目前服務於國立臺北商業大學財務金融學系，負責教授金融科技與資訊的相關課程，過去專長在密碼學與資通安全，也是勞動部全國技能競賽網路安全職類裁判 目前主要研究放在區塊鏈、機器學習與量子金融，歡迎與我聯繫和交流。
-
-## Contributions 
-Scopus https://www.scopus.com/authid/detail.uri?authorId=12807634400
-ORCID https://orcid.org/0000-0002-2419-6453
-Scholar https://scholar.google.com.tw/citations?user=0vyk6SIAAAAJ&hl=zh-TW
-DBLP https://dblp.org/pid/41/52
+## 學術檔案
+[Scopus](https://www.scopus.com/authid/detail.uri?authorId=12807634400)
+[ORCID](https://orcid.org/0000-0002-2419-6453)
+[Google Scholar](https://scholar.google.com.tw/citations?user=0vyk6SIAAAAJ&hl=zh-TW)
+[DBLP](https://dblp.org/pid/41/52)
 
 ## 學歷
-國立中央大學資訊管理學博士(系統組)
+國立中央大學資訊管理學博士（系統組），2016年
 
 ## 經歷
 逢甲大學財務金融學系，助理教授兼金融科技研究中心副主任（2年）
@@ -29,7 +26,7 @@ DBLP https://dblp.org/pid/41/52
 金融科技、程式語言、人工智慧
 
 ## 專業證照
-1.	Certificated Ethical Hacker (CEH) 駭客技術專家認證, 發證單位EC-Council, ECC1708536924
+1.	Certified Ethical Hacker (CEH) 駭客技術專家認證, 發證單位EC-Council, ECC1708536924
 2.	Certified EC-Council Instructor (CEI), EC-COUNCIL 原廠授權講師, 發證單位EC-Council, ECC52782528612
 3.	ISO 27001:2013資訊安全主導稽核員, 發證單位SGS Taiwan, 40583013
 4.	BS 10012 個人資訊管理系統主導稽核員, 發證單位SGS Taiwan, IN16269 S/08002
