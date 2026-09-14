@@ -70,6 +70,8 @@ LABELS = {'zh': {'title': '吳威震 Wei-Chen Wu｜金融科技・AI・資通安
         'diagram_detail_hint': '拖曳旋轉 · 使用下方按鈕縮放',
         'diagram_help': '點選圖中節點或下方領域名稱進入次領域圖。也可使用 Tab 選擇領域並按 Enter 開啟；方向鍵旋轉，加減鍵縮放，Home 重設，Escape 返回主圖。觸控螢幕可點選領域或左右滑動旋轉。',
         'diagram_reset': '重設視角',
+        'diagram_pause': '暫停旋轉',
+        'diagram_resume': '恢復旋轉',
         'diagram_zoom_in': '放大研究圖',
         'diagram_zoom_out': '縮小研究圖',
         'services_kicker': '06 / PROFESSIONAL SERVICE',
@@ -166,6 +168,8 @@ LABELS = {'zh': {'title': '吳威震 Wei-Chen Wu｜金融科技・AI・資通安
                         'and Escape to return to the main graph. On touchscreens, tap an area or swipe '
                         'horizontally to rotate.',
         'diagram_reset': 'Reset view',
+        'diagram_pause': 'Pause rotation',
+        'diagram_resume': 'Resume rotation',
         'diagram_zoom_in': 'Zoom in on research map',
         'diagram_zoom_out': 'Zoom out of research map',
         'services_kicker': '06 / PROFESSIONAL SERVICE',

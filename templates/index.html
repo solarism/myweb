@@ -68,7 +68,7 @@
         <figcaption>
           <ul class="map-legend" aria-label="{{ t.diagram_note }}">{% for key, label in t.diagram_topics %}<li class="topic-{{ key }}"><button type="button" class="map-topic" data-map-field="{{ key }}" disabled><span class="map-topic-dot" aria-hidden="true"></span><span class="map-topic-name">{{ label }}</span><span class="map-topic-arrow" aria-hidden="true">↗</span></button></li>{% endfor %}</ul>
           <ol class="map-subfields" aria-label="{{ t.diagram_subfields }}" hidden></ol>
-          <div class="map-interaction" hidden><p class="map-hint">{{ t.diagram_hint }}</p><div class="map-controls"><button type="button" data-map-action="zoom-out" aria-label="{{ t.diagram_zoom_out }}">−</button><button type="button" data-map-action="zoom-in" aria-label="{{ t.diagram_zoom_in }}">+</button><button type="button" data-map-action="reset">{{ t.diagram_reset }}</button></div></div>
+          <div class="map-interaction" hidden><p class="map-hint">{{ t.diagram_hint }}</p><div class="map-controls"><button type="button" data-map-action="zoom-out" aria-label="{{ t.diagram_zoom_out }}">−</button><button type="button" data-map-action="zoom-in" aria-label="{{ t.diagram_zoom_in }}">+</button><button type="button" data-map-action="reset">{{ t.diagram_reset }}</button><button type="button" data-map-motion data-pause="{{ t.diagram_pause }}" data-resume="{{ t.diagram_resume }}" aria-pressed="false">{{ t.diagram_pause }}</button></div></div>
           <p id="map-help" class="visually-hidden">{{ t.diagram_help }}</p>
         </figcaption>
       </figure>

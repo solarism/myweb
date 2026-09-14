@@ -89,7 +89,7 @@ h1 { font-size: clamp(42px, 4.5vw, 66px); font-weight: 700; line-height: 1.25; l
 @media (max-width: 600px) { .map-subfields { grid-template-columns: 1fr; gap: 8px; } }
 .map-interaction { margin-top: 12px; }
 .map-hint { text-align: center; font-size: 14px; color: #adc4d4; }
-.map-controls { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+.map-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 10px; }
 .map-controls button { border: 1px solid #40596c; border-radius: 5px; background: #142b3d; color: #e4eff5; min-width: 44px; min-height: 44px; padding: 5px 12px; font-size: 15px; line-height: 1.5; }
 .map-controls button:hover { border-color: var(--teal); background: #1a394b; }
 .stats { display: grid; grid-template-columns: 1.1fr 1.25fr .8fr .8fr; border-top: 1px solid #2b3e50; padding: 28px 0 32px; }

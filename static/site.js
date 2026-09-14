@@ -49,14 +49,31 @@ if (viewport) {
   const currentTitle = map.querySelector('.map-current');
   const legend = map.querySelector('.map-legend');
   const subfieldList = map.querySelector('.map-subfields');
+  const motionButton = map.querySelector('[data-map-motion]');
   const ns = 'http://www.w3.org/2000/svg';
   const geometry = document.createElementNS(ns, 'g');
   let points = [], edges = [], rings = [];
   let nodeLayer, labelLayer, center;
   let currentField = null, overviewView = null;
-  const initialRotation = {x: -.12, y: -.2};
+  const initialRotation = {x: -.12, y: -.2, z: 0};
   let rotation = {...initialRotation}, target = {...rotation}, base = {...rotation};
   let zoom = 1, frame = null, drag = null, dragged = false;
+  let autoRotate = !reducedMotion.matches, pointerOver = false, mapVisible = true;
+  let lastFrame = null, resumeAt = 0, directionTime = 0;
+  function randomVelocity() {
+    const direction = {x: Math.random() * 2 - 1, y: Math.random() * 2 - 1, z: (Math.random() * 2 - 1) * .5};
+    const length = Math.hypot(direction.x, direction.y, direction.z) || 1;
+    const speed = 2 * (.022 + Math.random() * .016); // Double the original rotation speed.
+    return Object.fromEntries(Object.entries(direction).map(([axis, value]) => [axis, value / length * speed]));
+  }
+  let velocity = randomVelocity(), nextVelocity = randomVelocity();
+  function automaticMotionAllowed() {
+    return autoRotate && !pointerOver && !drag && !map.querySelector(':focus-visible');
+  }
+  function updateMotionButton() {
+    motionButton.textContent = autoRotate ? motionButton.dataset.pause : motionButton.dataset.resume;
+    motionButton.setAttribute('aria-pressed', String(!autoRotate));
+  }
 
   function element(tag, attrs, parent = geometry) {
     const node = document.createElementNS(ns, tag);
@@ -154,14 +171,33 @@ if (viewport) {
     const z1 = z * Math.cos(rotation.y) - x * Math.sin(rotation.y);
     const y1 = y * Math.cos(rotation.x) - z1 * Math.sin(rotation.x);
     const z2 = z1 * Math.cos(rotation.x) + y * Math.sin(rotation.x);
+    const x2 = x1 * Math.cos(rotation.z) - y1 * Math.sin(rotation.z);
+    const y2 = x1 * Math.sin(rotation.z) + y1 * Math.cos(rotation.z);
     const scale = 650 / (650 + z2) * zoom * .86;
-    return {x: 260 + x1 * scale, y: 210 + y1 * scale, depth: z2, scale};
+    return {x: 260 + x2 * scale, y: 210 + y2 * scale, depth: z2, scale};
   }
-  function render() {
+  function render(now = performance.now()) {
     frame = null;
-    const easing = reducedMotion.matches ? 1 : .18;
-    rotation.x += (target.x - rotation.x) * easing;
-    rotation.y += (target.y - rotation.y) * easing;
+    if (document.hidden || !mapVisible) { lastFrame = null; return; }
+    // Use elapsed time so high refresh rates do not make the graph rotate faster.
+    const elapsed = lastFrame === null ? 1 / 60 : Math.min((now - lastFrame) / 1000, .05);
+    lastFrame = now;
+    const automatic = automaticMotionAllowed();
+    if (automatic && now >= resumeAt) {
+      directionTime -= elapsed;
+      if (directionTime <= 0) {
+        nextVelocity = randomVelocity();
+        directionTime = 8 + Math.random() * 8;
+      }
+      const blend = 1 - Math.exp(-elapsed / 3);
+      for (const axis of ['x', 'y', 'z']) {
+        velocity[axis] += (nextVelocity[axis] - velocity[axis]) * blend;
+        base[axis] += velocity[axis] * elapsed;
+        target[axis] = base[axis];
+      }
+    }
+    const easing = reducedMotion.matches ? 1 : 1 - Math.exp(-elapsed * 12);
+    for (const axis of ['x', 'y', 'z']) rotation[axis] += (target[axis] - rotation[axis]) * easing;
     const projected = points.map(point => project(point.position));
     rings.forEach(ring => {
       ring.node.setAttribute('d', ring.points.map((point, index) => {
@@ -193,6 +229,7 @@ if (viewport) {
     });
     // Keep labels legible and within the graph, including at oblique angles.
     const occupied = [];
+    let labelsMoving = false;
     points.forEach((point, index) => {
       if (!point.anchor) return;
       const p = projected[index];
@@ -202,8 +239,15 @@ if (viewport) {
         x, y: Math.max(8, Math.min(412 - point.height, p.y + offset * direction - point.height / 2)),
         width: 156, height: point.height,
       }));
-      const box = candidates.find(candidate => !occupied.some(other => candidate.x < other.x + other.width + 6 && candidate.x + candidate.width + 6 > other.x && candidate.y < other.y + other.height + 6 && candidate.y + candidate.height + 6 > other.y)) || candidates[0];
-      occupied.push(box);
+      const destination = candidates.find(candidate => !occupied.some(other => candidate.x < other.x + other.width + 6 && candidate.x + candidate.width + 6 > other.x && candidate.y < other.y + other.height + 6 && candidate.y + candidate.height + 6 > other.y)) || candidates[0];
+      occupied.push(destination);
+      // Ease label repositioning too, so crossing the equator never causes a jump.
+      const box = point.labelPosition || {...destination};
+      const labelEasing = reducedMotion.matches ? 1 : 1 - Math.exp(-elapsed * 8);
+      box.x += (destination.x - box.x) * labelEasing;
+      box.y += (destination.y - box.y) * labelEasing;
+      point.labelPosition = box;
+      labelsMoving ||= Math.abs(destination.x - box.x) + Math.abs(destination.y - box.y) > .1;
       if (point.hit) { point.hit.setAttribute('cx', p.x); point.hit.setAttribute('cy', p.y); }
       point.plate.setAttribute('x', box.x); point.plate.setAttribute('y', box.y);
       for (const [key, value] of Object.entries({x1: p.x, y1: p.y, x2: box.x + 78, y2: box.y + box.height / 2})) point.connector.setAttribute(key, value);
@@ -212,7 +256,7 @@ if (viewport) {
         line.setAttribute('y', box.y + 22 + i * 20);
       });
     });
-    if (Math.abs(target.x - rotation.x) + Math.abs(target.y - rotation.y) > .001) schedule();
+    if (automatic || labelsMoving || ['x', 'y', 'z'].some(axis => Math.abs(target[axis] - rotation[axis]) > .001)) schedule();
   }
   function schedule() { if (frame === null) frame = requestAnimationFrame(render); }
   function showField(id) {
@@ -246,6 +290,8 @@ if (viewport) {
     rotation = field || !overviewView ? {...initialRotation} : {...overviewView.rotation};
     target = {...base};
     zoom = field || !overviewView ? 1 : overviewView.zoom;
+    lastFrame = null;
+    resumeAt = performance.now() + 1200;
     buildScene(field);
     // Lay out the new scene before moving focus to its navigation.
     if (frame !== null) cancelAnimationFrame(frame);
@@ -276,7 +322,7 @@ if (viewport) {
     } else if (event.pointerType === 'mouse' && !reducedMotion.matches && !event.target.closest('.map-domain')) {
       const rect = viewport.getBoundingClientRect();
       target = {x: base.x - ((event.clientY - rect.top) / rect.height - .5) * .5,
-        y: base.y + ((event.clientX - rect.left) / rect.width - .5) * .65};
+        y: base.y + ((event.clientX - rect.left) / rect.width - .5) * .65, z: base.z};
     } else return;
     schedule();
   });
@@ -315,6 +361,50 @@ if (viewport) {
   map.addEventListener('keydown', event => {
     if (event.key === 'Escape' && currentField) { event.preventDefault(); showField(null); }
   });
+  map.addEventListener('pointerenter', event => {
+    if (event.pointerType === 'touch') return;
+    pointerOver = true;
+    base = {...rotation}; target = {...rotation};
+    schedule();
+  });
+  map.addEventListener('pointerleave', event => {
+    if (event.pointerType === 'touch') return;
+    pointerOver = false;
+    resumeAt = performance.now() + 1200;
+    lastFrame = null;
+    schedule();
+  });
+  map.addEventListener('pointerup', () => {
+    resumeAt = performance.now() + 1500;
+    schedule();
+  });
+  map.addEventListener('focusin', () => {
+    if (map.querySelector(':focus-visible')) { base = {...rotation}; target = {...rotation}; }
+    schedule();
+  });
+  map.addEventListener('focusout', () => {
+    resumeAt = performance.now() + 1200;
+    schedule();
+  });
+  motionButton.addEventListener('click', () => {
+    autoRotate = !autoRotate;
+    updateMotionButton();
+    lastFrame = null;
+    schedule();
+  });
+  reducedMotion.addEventListener('change', () => {
+    autoRotate = !reducedMotion.matches;
+    updateMotionButton();
+    lastFrame = null;
+    schedule();
+  });
+  document.addEventListener('visibilitychange', () => { lastFrame = null; schedule(); });
+  const mapObserver = new IntersectionObserver(entries => {
+    mapVisible = entries[0].isIntersecting;
+    lastFrame = null;
+    schedule();
+  });
+  mapObserver.observe(viewport);
   topicButtons.forEach(button => {
     button.disabled = false;
     button.addEventListener('click', () => showField(button.dataset.mapField));
@@ -325,6 +415,7 @@ if (viewport) {
   svg.append(geometry);
   map.querySelector('.map-interaction').hidden = false;
   map.querySelector('.map-navigation').hidden = false;
+  updateMotionButton();
   showField(null);
 }
 
