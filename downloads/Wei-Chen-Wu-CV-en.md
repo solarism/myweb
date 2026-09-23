@@ -4,17 +4,18 @@ Bibliographic titles retain their publication language where appropriate. Dates,
 
 ## Profile
 
-### Biography
-Wei-Chen Wu is an Associate Professor in the Department of Finance at National Taipei University of Business. He received his Ph.D. in Information Management from National Central University in 2016. His teaching interests include artificial intelligence, design, and implementation, and his research focuses on blockchain technology, financial information security, and post-quantum cryptography. He previously served as an Assistant Professor in the Department of Finance at National Taipei University of Business (2021–2023), an Assistant Professor in the Department of Finance at Feng Chia University (2020–2021), and an Assistant Professor and Director of the Computer Center at Hsin Sheng College of Medical Care and Management (2008–2016).
+### Vita
+I am an Associate Professor in the Department of Finance at National Taipei University of Business. I received my Ph.D. in Information Management from National Central University in 2016. My teaching interests include artificial intelligence, design, and implementation. My current research focuses on blockchain technology, information security in finance, and post-quantum cryptography.
+Previously, I served as an Assistant Professor in the Department of Finance at National Taipei University of Business (2021–2023) and in the Department of Finance at Feng Chia University (2020–2021). From 2008 to 2016, I served as an Assistant Professor and Director of the Computer Center at Hsin Sheng College of Medical Care and Management.
 
-### Academic Profiles
-[Scopus](https://www.scopus.com/authid/detail.uri?authorId=12807634400)
-[ORCID](https://orcid.org/0000-0002-2419-6453)
-[Google Scholar](https://scholar.google.com.tw/citations?user=0vyk6SIAAAAJ&hl=zh-TW)
-[DBLP](https://dblp.org/pid/41/52)
+### Contributions
+Scopus https://www.scopus.com/authid/detail.uri?authorId=12807634400
+ORCID https://orcid.org/0000-0002-2419-6453
+Scholar https://scholar.google.com.tw/citations?user=0vyk6SIAAAAJ&hl=zh-TW
+DBLP https://dblp.org/pid/41/52
 
 ### Education
-Ph.D. in Information Management (Systems Track), National Central University, 2016
+Ph.D. in Information Management (Systems Track), National Central University
 
 ### Experience
 Assistant Professor and Deputy Director of the FinTech Research Center, Department of Finance, Feng Chia University (2 years)
@@ -33,7 +34,7 @@ Financial Technology, Programming Languages, Artificial Intelligence
 
 ### Professional Certifications
 
-1. Certified Ethical Hacker (CEH), ethical hacking professional certification; Issuer: EC-Council; ECC1708536924
+1. Certificated Ethical Hacker (CEH), ethical hacking professional certification; Issuer: EC-Council; ECC1708536924
 
 2. Certified EC-Council Instructor (CEI), EC-Council-authorized instructor; Issuer: EC-Council; ECC52782528612
 
@@ -390,7 +391,7 @@ Financial Technology, Programming Languages, Artificial Intelligence
 
 ### Industry–Academia Collaboration Projects
 
-9. Wei-Chen Wu; 2025; Apple Bud Youth Finance Course Project (Phase One); Apple Bud Digital Technology Co., Ltd.; Project No. 1140113173642; Approved Funding: NT$198,993; Completed
+9. Wei-Chen Wu; 2025; Apple Bud Youth Finance Course Project (Phase One); Apple Bud Digital Technology Co., Ltd.; Project No. 1140113173642; Approved Funding: NT$198,993;https://orangeapple.co/courses/financial/ ; Completed
 
 17. 吳瑞萱, Wei-Chen Wu, 林修葳; 2023; A Preliminary Exploration of Using Cryptocurrency to Promote Charitable Activities and Establish an Ecosystem; Market Intelligence & Consulting Institute, Institute for Information Industry; Approved Funding: NT$400,000; Completed
 
@@ -430,10 +431,16 @@ Financial Technology, Programming Languages, Artificial Intelligence
 
 ## Honors
 
-1. Honorable Mention, Ministry of Education Xue Hai Program, Year 113 https://reurl.cc/bYeql6
+1. Honorable Mention, Ministry of Education Xue Hai Program, 2024 (ROC year 113). https://reurl.cc/bYeql6
 
-2. Outstanding Project, Ministry of Education Teaching Practice Research Program, Year 111 https://reurl.cc/A40bYe
+2. Outstanding Project, Ministry of Education Teaching Practice Research Program, 2022 (ROC year 111). https://reurl.cc/A40bYe
 
-3. Honorary Director, Global Blockchain Strategy and Application Development Association
+3. Outstanding Teacher Award, 2025–2026 academic year (ROC academic year 114).
 
-4. Honorary Member, Phi Tau Phi Scholastic Honor Society of the Republic of China
+4. Recipient, Ministry of Education Flexible Salary Support for Outstanding Talent (Teaching Practice category), 2025 (ROC year 114).
+
+5. Recipient, Ministry of Education Flexible Salary Support for Outstanding Talent (Teaching Practice category), 2026 (ROC year 115).
+
+6. Honorary Director, Global Blockchain Strategy and Application Development Association.
+
+7. Honorary Member, Phi Tau Phi Scholastic Honor Society of the Republic of China.

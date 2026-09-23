@@ -39,17 +39,14 @@ if (viewport) {
   const svg = viewport.querySelector('svg');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const fields = JSON.parse(map.dataset.mapFields);
-  const topicButtons = [...map.querySelectorAll('.map-topic')];
-  const topics = topicButtons.map((button, index) => ({
-    id: button.dataset.mapField,
-    title: button.querySelector('.map-topic-name').textContent,
+  const topics = JSON.parse(map.dataset.mapTopics).map(([id, title], index) => ({
+    id, title,
     color: ['#60e1c2', '#a9bdff', '#f2c580'][index],
   }));
   const backButton = map.querySelector('.map-back');
   const currentTitle = map.querySelector('.map-current');
   const legend = map.querySelector('.map-legend');
   const subfieldList = map.querySelector('.map-subfields');
-  const motionButton = map.querySelector('[data-map-motion]');
   const ns = 'http://www.w3.org/2000/svg';
   const geometry = document.createElementNS(ns, 'g');
   let points = [], edges = [], rings = [];
@@ -69,10 +66,6 @@ if (viewport) {
   let velocity = randomVelocity(), nextVelocity = randomVelocity();
   function automaticMotionAllowed() {
     return autoRotate && !pointerOver && !drag && !map.querySelector(':focus-visible');
-  }
-  function updateMotionButton() {
-    motionButton.textContent = autoRotate ? motionButton.dataset.pause : motionButton.dataset.resume;
-    motionButton.setAttribute('aria-pressed', String(!autoRotate));
   }
 
   function element(tag, attrs, parent = geometry) {
@@ -270,7 +263,6 @@ if (viewport) {
     subfieldList.hidden = !field;
     backButton.hidden = !field;
     currentTitle.textContent = field ? field.title + ' / ' + map.dataset.mapSubfields : map.dataset.mapOverview;
-    map.querySelector('.map-hint').textContent = field ? map.dataset.mapDetailHint : map.dataset.mapHint;
     svg.querySelector('title').textContent = currentTitle.textContent;
     viewport.setAttribute('aria-label', currentTitle.textContent);
     subfieldList.replaceChildren();
@@ -297,7 +289,7 @@ if (viewport) {
     if (frame !== null) cancelAnimationFrame(frame);
     render();
     if (field) backButton.focus({preventScroll: true});
-    else if (previous) topicButtons.find(button => button.dataset.mapField === previous).focus({preventScroll: true});
+    else if (previous) svg.querySelector('.map-domain[data-map-field="' + previous + '"]').focus({preventScroll: true});
   }
   function action(kind) {
     if (kind === 'reset') {
@@ -355,6 +347,11 @@ if (viewport) {
     } else if (event.key === 'Home') action('reset');
     else if (event.key === '+' || event.key === '=') action('zoom-in');
     else if (event.key === '-') action('zoom-out');
+    else if (event.key === ' ') {
+      autoRotate = !autoRotate;
+      lastFrame = null;
+      schedule();
+    }
     else return;
     event.preventDefault();
   });
@@ -386,15 +383,8 @@ if (viewport) {
     resumeAt = performance.now() + 1200;
     schedule();
   });
-  motionButton.addEventListener('click', () => {
-    autoRotate = !autoRotate;
-    updateMotionButton();
-    lastFrame = null;
-    schedule();
-  });
   reducedMotion.addEventListener('change', () => {
     autoRotate = !reducedMotion.matches;
-    updateMotionButton();
     lastFrame = null;
     schedule();
   });
@@ -405,17 +395,10 @@ if (viewport) {
     schedule();
   });
   mapObserver.observe(viewport);
-  topicButtons.forEach(button => {
-    button.disabled = false;
-    button.addEventListener('click', () => showField(button.dataset.mapField));
-  });
   backButton.addEventListener('click', () => showField(null));
-  map.querySelectorAll('[data-map-action]').forEach(button => button.addEventListener('click', () => action(button.dataset.mapAction)));
   svg.querySelector('.map-fallback').remove();
   svg.append(geometry);
-  map.querySelector('.map-interaction').hidden = false;
   map.querySelector('.map-navigation').hidden = false;
-  updateMotionButton();
   showField(null);
 }
 

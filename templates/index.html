@@ -44,10 +44,11 @@
         <h1>{{ t.name }}<span class="hero-english">{{ 'Wei-Chen Wu' if lang == 'zh' else '吳威震' }}</span></h1>
         <p class="hero-role">{{ t.role }} · {{ t.department }}</p>
         <p class="hero-university">{{ t.university }}</p>
+        <p class="hero-tagline">{{ t.hero_tagline }}</p>
         <p class="hero-description">{{ t.hero_text }}</p>
         <div class="hero-actions"><a class="button primary" href="#about">{{ t.view_cv }} <span aria-hidden="true">↓</span></a><a class="text-link light" href="#research">{{ t.explore }} <span aria-hidden="true">→</span></a></div>
       </div>
-      <figure class="research-map" data-map-fields="{{ t.diagram_fields|tojson|forceescape }}" data-map-overview="{{ t.diagram_overview }}" data-map-subfields="{{ t.diagram_subfields }}" data-map-hint="{{ t.diagram_hint }}" data-map-detail-hint="{{ t.diagram_detail_hint }}">
+      <figure class="research-map" data-map-topics="{{ t.diagram_topics|tojson|forceescape }}" data-map-fields="{{ t.diagram_fields|tojson|forceescape }}" data-map-overview="{{ t.diagram_overview }}" data-map-subfields="{{ t.diagram_subfields }}">
         <div class="map-heading"><span>RESEARCH CONNECTIONS</span><span class="map-index">3D</span></div>
         <div class="map-navigation" hidden><button class="map-back" type="button" hidden><span aria-hidden="true">←</span> {{ t.diagram_back }}</button><p class="map-current" role="status" aria-live="polite">{{ t.diagram_overview }}</p></div>
         <div class="map-viewport" tabindex="0" role="group" aria-label="{{ t.diagram }}" aria-describedby="map-help">
@@ -66,9 +67,8 @@
           </svg>
         </div>
         <figcaption>
-          <ul class="map-legend" aria-label="{{ t.diagram_note }}">{% for key, label in t.diagram_topics %}<li class="topic-{{ key }}"><button type="button" class="map-topic" data-map-field="{{ key }}" disabled><span class="map-topic-dot" aria-hidden="true"></span><span class="map-topic-name">{{ label }}</span><span class="map-topic-arrow" aria-hidden="true">↗</span></button></li>{% endfor %}</ul>
+          <ul class="map-legend" aria-label="{{ t.diagram_note }}">{% for key, label in t.diagram_topics %}<li class="topic-{{ key }}"><span class="map-topic-dot" aria-hidden="true"></span>{{ label }}</li>{% endfor %}</ul>
           <ol class="map-subfields" aria-label="{{ t.diagram_subfields }}" hidden></ol>
-          <div class="map-interaction" hidden><p class="map-hint">{{ t.diagram_hint }}</p><div class="map-controls"><button type="button" data-map-action="zoom-out" aria-label="{{ t.diagram_zoom_out }}">−</button><button type="button" data-map-action="zoom-in" aria-label="{{ t.diagram_zoom_in }}">+</button><button type="button" data-map-action="reset">{{ t.diagram_reset }}</button><button type="button" data-map-motion data-pause="{{ t.diagram_pause }}" data-resume="{{ t.diagram_resume }}" aria-pressed="false">{{ t.diagram_pause }}</button></div></div>
           <p id="map-help" class="visually-hidden">{{ t.diagram_help }}</p>
         </figcaption>
       </figure>
